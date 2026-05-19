@@ -25,3 +25,7 @@ server_params = StdioServerParameters(
         'WEB_UNLOCKER_ZONE': os.getenv('WEB_UNLOCKER_ZONE')
     }
 )
+
+SYSTEM_PROMPT = (
+    
+)
