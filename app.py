@@ -37,3 +37,24 @@ class Hit(BaseModel):
     url: str = Field(..., description='The URL of the product that was found')
     title: str = Field(..., description='The title of the product that was found')
     rating: str = Field(..., description='The rating of the product (starts, number of ratings given etc.)')
+
+class PlatformBlock(BaseModel):
+    platform: str = Field(..., description='Name of the platform')
+    results: list[Hit] = Field(..., description='List of results for this platform')
+
+class ProductSearchResponse(BaseModel):
+    platforms: list[PlatformBlock] = Field(..., description='Aggregated list of all results grouped by platform')
+
+
+app = Flask(__name__)
+app.secret_key = 'mysecretkey-not-for-prod'
+
+async def run_agent(query, platforms):
+    async with stdio_client(server_params) as (read, write):
+        async with ClientSession(read, write) as sess:
+            await sess.initialize()
+
+            tools = await load_mcp_tools(sess)
+
+            agent = create_react_agent(model, tools, response_format=ProductSearchResponse)
+            
