@@ -30,3 +30,10 @@ SYSTEM_PROMPT = (
     "To find products, first use the search_engine tool. When finding products, use the web_data tool for the platform. If none exists, scrape as markdown."
     "Example: Don't use web_data_bestbuy_products for search. Use it only for getting data on specific products you already found in search."
 )
+
+PLATFORMS = ['Amazon', 'Best Buy', 'Ebay', 'Walmart', 'Target', 'Costco', 'Newegg']
+
+class Hit(BaseModel):
+    url: str = Field(..., description='The URL of the product that was found')
+    title: str = Field(..., description='The title of the product that was found')
+    rating: str = Field(..., description='The rating of the product (starts, number of ratings given etc.)')
