@@ -57,4 +57,5 @@ async def run_agent(query, platforms):
             tools = await load_mcp_tools(sess)
 
             agent = create_react_agent(model, tools, response_format=ProductSearchResponse)
+
             
