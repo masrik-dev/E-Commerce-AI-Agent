@@ -58,4 +58,3 @@ async def run_agent(query, platforms):
 
             agent = create_react_agent(model, tools, response_format=ProductSearchResponse)
 
-            
