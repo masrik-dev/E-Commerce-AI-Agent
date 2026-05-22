@@ -84,3 +84,28 @@ def index():
         if not platforms:
             flash("Select at least one platform.", "danger")
             return redirect(url_for("index"))
+
+        try:
+            response_json = asyncio.run(run_agent(query, platforms))
+        except Exception as exc:
+            flash(f"Agent error: {exc}", "danger")
+            return redirect(url_for("index"))
+        
+        return render_template(
+            "index.html",
+            query=query,
+            platforms=PLATFORMS,
+            selected=platforms,
+            response=response_json,
+        )
+    
+    return render_template(
+            "index.html",
+            query="",
+            platforms=PLATFORMS,
+            selected="",
+            response=None,
+        )
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, debug=True)
