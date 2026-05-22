@@ -69,3 +69,18 @@ async def run_agent(query, platforms):
                 }
             )
 
+            structured = result['structured_response']
+
+            return structured_response.model_dump()
+        
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        query       = request.form.get("query", "").strip()
+        platforms   = request.form.getlist("platforms")
+        if not query:
+            flash("Please enter a search query.", "danger")
+            return redirect(url_for("index"))
+        if not platforms:
+            flash("Select at least one platform.", "danger")
+            return redirect(url_for("index"))
